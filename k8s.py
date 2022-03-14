@@ -8,6 +8,7 @@
 @Date ：2022/3/14
 @Description:
 """
+from typing import Dict
 
 import yaml
 
@@ -42,8 +43,29 @@ def create_pod_on_node(name, image, node_selector_value, count, namespace, c: cl
             k8s_apps_v1.create_namespaced_pod(body=dep, namespace=namespace)
 
 
+def create_pod_with_scheme(scheme: Dict[str, Dict[str, int]], namespace, c: client):
+    for node in scheme:
+        for svc, count in scheme[node].items():
+            create_pod_on_node(
+                name=svc,
+                image=f'septemberhx/{svc}:latest',
+                node_selector_value=node,
+                count=count,
+                namespace=namespace,
+                c=c
+            )
+
+
 if __name__ == '__main__':
     # Configs can be set in Configuration class directly or using helper utility
     config.load_kube_config()
     create_namespace_if_not_exist('hx-test', client)
-    create_pod_on_node('service1', 'service1:latest', 'k8s-master', 3, 'hx-test', client)
+    create_pod_with_scheme(
+        scheme={
+            'k8s-master': {
+                'service1': 3
+            }
+        },
+        namespace='hx-test',
+        c=client
+    )
