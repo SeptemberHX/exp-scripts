@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: NAME
+spec:
+  containers:
+  - name: NAME
+    image: IMAGE
+    imagePullPolicy: IfNotPresent
+  nodeSelector:
+    node: NODE
