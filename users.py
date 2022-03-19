@@ -23,7 +23,6 @@ import requests
 from logger import get_logger
 
 logger = get_logger('users')
-thread_list = []  # type: List[threading.Thread]
 app = Flask(__name__)
 DATA_DIR = './data/phy_data'
 
@@ -87,6 +86,9 @@ class MyThread(threading.Thread):
 
     def stop(self):
         self._running = False
+
+
+thread_list = []  # type: List[MyThread]
 
 
 def start_simulate(users, func_map):
