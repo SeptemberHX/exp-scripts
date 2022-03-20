@@ -8,9 +8,11 @@
 @Date ：2022/3/14
 @Description:
 """
+import json
 from typing import Dict
 
 import yaml
+import sys
 
 from kubernetes import client, config
 
@@ -56,16 +58,27 @@ def create_pod_with_scheme(scheme: Dict[str, Dict[str, int]], namespace, c: clie
             )
 
 
+def read_scheme(file_path):
+    with open(file_path) as f:
+        scheme_raw = json.load(f)
+        scheme = {}
+        for node_index_str in scheme_raw:
+            scheme[f'node{node_index_str}'] = {}
+            for svc_index_str in scheme_raw[node_index_str]:
+                scheme[f'node{node_index_str}'][f'service{svc_index_str}'] = scheme_raw[node_index_str][svc_index_str]
+    return scheme
+
+
 if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print('No scheme.json provided.')
+        exit(0)
+
     # Configs can be set in Configuration class directly or using helper utility
     config.load_kube_config()
     create_namespace_if_not_exist('hx-test', client)
     create_pod_with_scheme(
-        scheme={
-            'k8s-master': {
-                'service1': 3
-            }
-        },
+        scheme=read_scheme(sys.argv),
         namespace='hx-test',
         c=client
     )
