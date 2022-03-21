@@ -51,7 +51,7 @@ def send_request(user_id, func_obj):
     }
     t1 = datetime.datetime.now().timestamp() * 1000  # ms
     logger.debug(f'==> {user_id}|{data["svcId"]}|{data["patternUrl"]}|{t1}')
-    response = requests.post(gateway, data=json.dumps(data))
+    response = requests.post(gateway, json=data)
     t2 = datetime.datetime.now().timestamp() * 1000  # ms
     logger.debug(f'<== {user_id}|{data["svcId"]}|{data["patternUrl"]}|{t2}')
 
