@@ -113,7 +113,7 @@ def start():
         start_simulate(users, func_objs)
 
 
-@app.route('/simulate/start', methods=['POST'])
+@app.route('/simulate/stop', methods=['POST'])
 def end():
     for thread in thread_list:
         thread.stop()
