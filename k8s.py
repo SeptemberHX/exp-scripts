@@ -78,7 +78,7 @@ if __name__ == '__main__':
     config.load_kube_config()
     create_namespace_if_not_exist('hx-test', client)
     create_pod_with_scheme(
-        scheme=read_scheme(sys.argv),
+        scheme=read_scheme(sys.argv[1]),
         namespace='hx-test',
         c=client
     )
