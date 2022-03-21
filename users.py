@@ -40,7 +40,7 @@ def send_request(user_id, func_obj):
         'svcId': f'service{func_obj["svcIndex"]}',
         'patternUrl': func_obj['patternUrl'],
         'userId': user_id,
-        'timestamp': datetime.datetime.now().timestamp() * 1000,
+        'timestamp': int(datetime.datetime.now().timestamp() * 1000),
         'callbackUrl': 'http://localhost:8082/callback',
         'params': {
             'status': 'Success',
@@ -115,6 +115,7 @@ def start():
                         d.items()})
         print(users)
         start_simulate(users[node], func_objs)
+    return 'ok'
 
 
 @app.route('/simulate/stop', methods=['POST'])
@@ -122,6 +123,7 @@ def end():
     for thread in thread_list:
         thread.stop()
     thread_list.clear()
+    return 'ok'
 
 
 if __name__ == '__main__':
