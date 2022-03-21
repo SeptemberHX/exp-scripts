@@ -61,14 +61,14 @@ def send_request(user_id, func_obj):
 
 
 class MyThread(threading.Thread):
-    def __init__(self, thread_id, name, delay, user_id, user_data, func_map):
+    def __init__(self, thread_id, name, delay, user_id, user_data, func_objs):
         threading.Thread.__init__(self)
         self.threadID = thread_id
         self.name = name
         self.delay = delay
         self.user_id = user_id
         self.user_data = user_data
-        self.func_map = func_map
+        self.func_objs = func_objs
         self._running = True
 
     def run(self):
@@ -81,7 +81,9 @@ class MyThread(threading.Thread):
         func_i = 0
         while self._running:
             func_i = func_i % len(self.user_data)
-            send_request(f'{self.user_id}_{i}', self.func_map[self.user_data[func_i]])
+            send_request(f'{self.user_id}_{i}', self.func_objs[self.user_data[func_i]])
+            print(self.user_data)
+            func_i += 1
             sleep(random.randint(0, 5))
 
     def stop(self):
@@ -91,9 +93,9 @@ class MyThread(threading.Thread):
 thread_list = []  # type: List[MyThread]
 
 
-def start_simulate(users, func_map):
+def start_simulate(users, func_objs):
     for user_id in users:
-        thread = MyThread(user_id, f'Thread-{user_id}', 0, user_id, users[user_id], func_map)
+        thread = MyThread(user_id, f'Thread-{user_id}', 0, user_id, users[user_id], func_objs)
         thread.start()
         thread_list.append(thread)
 
