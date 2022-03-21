@@ -81,8 +81,8 @@ class MyThread(threading.Thread):
         func_i = 0
         while self._running:
             func_i = func_i % len(self.user_data)
-            send_request(f'{self.user_id}_{i}', self.func_objs[self.user_data[func_i]])
             print(self.user_data)
+            send_request(f'{self.user_id}_{i}', self.func_objs[self.user_data[func_i]])
             func_i += 1
             sleep(random.randint(0, 5))
 
