@@ -38,8 +38,8 @@ def create_pod_on_node(name, image, node_selector_value, count, namespace, REGIS
         dep['spec']['containers'][0]['name'] = name
         dep['spec']['containers'][0]['image'] = image
         dep['spec']['nodeSelector']['node'] = node_selector_value
-        dep['spec']['containers'][0]['env'][0] = REGISTRY_IP
-        dep['spec']['containers'][0]['env'][1] = REGISTRY_PORT
+        dep['spec']['containers'][0]['env'][0]['value'] = REGISTRY_IP
+        dep['spec']['containers'][0]['env'][1]['value'] = REGISTRY_PORT
         print(dep)
 
         for i in range(0, count):
