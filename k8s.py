@@ -31,13 +31,15 @@ def create_namespace_if_not_exist(namespace, c: client):
     })
 
 
-def create_pod_on_node(name, image, node_selector_value, count, namespace, c: client):
+def create_pod_on_node(name, image, node_selector_value, count, namespace, REGISTRY_IP, REGISTRY_PORT, c: client):
     with open('./pod.yaml') as f:
         dep = yaml.safe_load(f)
         k8s_apps_v1 = c.CoreV1Api()
         dep['spec']['containers'][0]['name'] = name
         dep['spec']['containers'][0]['image'] = image
         dep['spec']['nodeSelector']['node'] = node_selector_value
+        dep['spec']['containers'][0]['env']['REGISTRY_IP'] = REGISTRY_IP
+        dep['spec']['containers'][0]['env']['REGISTRY_PORT'] = REGISTRY_PORT
         print(dep)
 
         for i in range(0, count):
@@ -45,7 +47,7 @@ def create_pod_on_node(name, image, node_selector_value, count, namespace, c: cl
             k8s_apps_v1.create_namespaced_pod(body=dep, namespace=namespace)
 
 
-def create_pod_with_scheme(scheme: Dict[str, Dict[str, int]], namespace, c: client):
+def create_pod_with_scheme(scheme: Dict[str, Dict[str, int]], namespace, REGISTRY_IP, REGISTRY_PORT, c: client):
     for node in scheme:
         for svc, count in scheme[node].items():
             create_pod_on_node(
@@ -70,8 +72,8 @@ def read_scheme(file_path):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print('No scheme.json provided.')
+    if len(sys.argv) < 4:
+        print('No scheme.json, REGISTRY_IP, or REGISTRY_PORT provided.')
         exit(0)
 
     # Configs can be set in Configuration class directly or using helper utility
@@ -80,5 +82,7 @@ if __name__ == '__main__':
     create_pod_with_scheme(
         scheme=read_scheme(sys.argv[1]),
         namespace='hx-test',
+        REGISTRY_IP=sys.argv[2],
+        REGISTRY_PORT=sys.argv[3],
         c=client
     )

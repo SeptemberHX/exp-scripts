@@ -7,5 +7,10 @@ spec:
   - name: NAME
     image: IMAGE
     imagePullPolicy: IfNotPresent
+    env:
+      - name: REGISTRY_IP
+        value: IP
+      - name: REGISTRY_PORT
+        value: PORT
   nodeSelector:
     node: NODE
