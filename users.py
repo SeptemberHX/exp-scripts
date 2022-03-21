@@ -33,7 +33,7 @@ def read_users(user_data_path):
     return users
 
 
-def request(user_id, func_obj):
+def send_request(user_id, func_obj):
     # todo: 同步请求，而非异步！
     gateway = 'http://localhost:8081/gateway/request'
     data = {
@@ -80,8 +80,8 @@ class MyThread(threading.Thread):
         i = 1
         func_i = 0
         while self._running:
-            func_i = func_i % len(self.func_list)
-            request(f'{self.user_id}_{i}', self.func_map[self.func_list[func_i]])
+            func_i = func_i % len(self.user_data)
+            send_request(f'{self.user_id}_{i}', self.func_map[self.user_data[func_i]])
             sleep(random.randint(0, 5))
 
     def stop(self):
