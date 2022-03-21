@@ -106,13 +106,14 @@ def start():
         data_json = json.loads(request.data.decode('utf-8'))
         data_index = data_json['index']
         group = data_json['group']
+        node = data_json['node']
         user_data_path = os.path.join(DATA_DIR, 'phy_data', f'group0{group}', f'users_{data_index}.json')
         users = read_users(user_data_path)
 
         with open(os.path.join(DATA_DIR, 'share', 'func_objs.json'), 'r') as f:
             func_objs = json.load(f, object_hook=lambda d: {int(k) if k.lstrip('-').isdigit() else k: v for k, v in
                         d.items()})
-        start_simulate(users[group], func_objs)
+        start_simulate(users[node], func_objs)
 
 
 @app.route('/simulate/stop', methods=['POST'])
