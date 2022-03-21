@@ -85,6 +85,6 @@ if __name__ == '__main__':
         scheme=read_scheme(sys.argv[1]),
         namespace='hx-test',
         REGISTRY_IP=sys.argv[2],
-        REGISTRY_PORT=int(sys.argv[3]),
+        REGISTRY_PORT=sys.argv[3],
         c=client
     )
