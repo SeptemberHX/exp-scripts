@@ -29,7 +29,7 @@ DATA_DIR = './data'
 
 def read_users(user_data_path):
     with open(user_data_path) as f:
-        users = json.load(f)
+        users = json.load(f, object_hook=lambda d: {int(k) if k.lstrip('-').isdigit() else k: v for k, v in d.items()})
     return users
 
 
