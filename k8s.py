@@ -56,6 +56,8 @@ def create_pod_with_scheme(scheme: Dict[str, Dict[str, int]], namespace, REGISTR
                 node_selector_value=node,
                 count=count,
                 namespace=namespace,
+                REGISTRY_IP=REGISTRY_IP,
+                REGISTRY_PORT=REGISTRY_PORT,
                 c=c
             )
 
