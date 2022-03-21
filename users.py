@@ -24,7 +24,7 @@ from logger import get_logger
 
 logger = get_logger('users')
 app = Flask(__name__)
-DATA_DIR = './data/phy_data'
+DATA_DIR = './data'
 
 
 def read_users(user_data_path):
@@ -104,7 +104,7 @@ def start():
         data_json = json.loads(request.data.decode('utf-8'))
         data_index = data_json['index']
         group = data_json['group']
-        user_data_path = os.path.join(DATA_DIR, group, f'users_{data_index}.json')
+        user_data_path = os.path.join(DATA_DIR, 'phy_data', group, f'users_{data_index}.json')
         users = read_users(user_data_path)
 
         with open(os.path.join(DATA_DIR, 'share', 'func_objs.json'), 'r') as f:
