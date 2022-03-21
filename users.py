@@ -37,14 +37,16 @@ def send_request(user_id, func_obj):
     # todo: 同步请求，而非异步！
     gateway = 'http://localhost:8081/gateway/request'
     data = {
-        'svcId': f'service{func_obj["svcIndex"]}',
+        'svcId': f'Service{func_obj["svcIndex"]}',
         'patternUrl': func_obj['patternUrl'],
         'userId': user_id,
         'timestamp': int(datetime.datetime.now().timestamp() * 1000),
         'callbackUrl': 'http://localhost:8082/callback',
         'params': {
             'status': 'Success',
-            'valueMap': {}
+            'valueMap': {
+                'first': func_obj['index']
+            }
         }
     }
     t1 = datetime.datetime.now().timestamp()
