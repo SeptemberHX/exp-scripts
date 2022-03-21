@@ -113,6 +113,7 @@ def start():
         with open(os.path.join(DATA_DIR, 'share', 'func_objs.json'), 'r') as f:
             func_objs = json.load(f, object_hook=lambda d: {int(k) if k.lstrip('-').isdigit() else k: v for k, v in
                         d.items()})
+        print(users)
         start_simulate(users[node], func_objs)
 
 
