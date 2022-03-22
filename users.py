@@ -56,7 +56,7 @@ def send_request(user_id, func_obj):
     logger.debug(f'<== {user_id}|{data["svcId"]}|{data["patternUrl"]}|{t2}|{threading.currentThread().name}')
 
     if (data["patternUrl"] == '/Service11/29'):
-        logger.debug(response)
+        logger.debug(response.content)
 
     if response.status_code == 200:
         if 'status' in response.json():
