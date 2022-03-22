@@ -56,9 +56,11 @@ def send_request(user_id, func_obj):
     logger.debug(f'<== {user_id}|{data["svcId"]}|{data["patternUrl"]}|{t2}')
 
     if response.status_code == 200:
-        logger.debug(response.json().keys())
-        status = response.json()['status']
-        logger.debug(f'{user_id}|{data["svcId"]}|{data["patternUrl"]}|{status}|{t2 - t1}')
+        try:
+            status = response.json()['status']
+            logger.debug(f'{user_id}|{data["svcId"]}|{data["patternUrl"]}|{status}|{t2 - t1}')
+        except Exception as e:
+            logger.debug(response.json())
     else:
         logger.debug(f'{user_id}|{data["svcId"]}|{data["patternUrl"]}|Fail|{t2 - t1}')
 
