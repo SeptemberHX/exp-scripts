@@ -56,6 +56,7 @@ def send_request(user_id, func_obj):
     logger.debug(f'<== {user_id}|{data["svcId"]}|{data["patternUrl"]}|{t2}')
 
     if response.status_code == 200:
+        logger.debug(response.json().keys())
         status = response.json()['status']
         logger.debug(f'{user_id}|{data["svcId"]}|{data["patternUrl"]}|{status}|{t2 - t1}')
     else:
