@@ -43,7 +43,7 @@ def create_pod_on_node(name, image, node_selector_value, count, namespace, REGIS
         print(dep)
 
         for i in range(0, count):
-            dep['metadata']['name'] = f'{name}-{i}'
+            dep['metadata']['name'] = f'{name}-{node_selector_value}-{i}'
             k8s_apps_v1.create_namespaced_pod(body=dep, namespace=namespace)
 
 
