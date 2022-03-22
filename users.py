@@ -50,10 +50,10 @@ def send_request(user_id, func_obj):
         }
     }
     t1 = datetime.datetime.now().timestamp() * 1000  # ms
-    logger.debug(f'==> {user_id}|{data["svcId"]}|{data["patternUrl"]}|{t1}')
+    logger.debug(f'==> {user_id}|{data["svcId"]}|{data["patternUrl"]}|{t1}|{threading.currentThread()}')
     response = requests.post(gateway, json=data)
     t2 = datetime.datetime.now().timestamp() * 1000  # ms
-    logger.debug(f'<== {user_id}|{data["svcId"]}|{data["patternUrl"]}|{t2}')
+    logger.debug(f'<== {user_id}|{data["svcId"]}|{data["patternUrl"]}|{t2}|')
 
     if response.status_code == 200:
         if 'status' in response.json():
