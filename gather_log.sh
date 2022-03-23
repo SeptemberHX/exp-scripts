@@ -2,9 +2,13 @@
 
 function scp_func
 {
+	node=0
+	mkdir ~/results
 	while test $# -gt 0
 	do
-		curl --location --request POST "$1:8082/simulate/stop" 
+		scp -i ~/distributed-tokyo.pem ubuntu@$1:/home/ubuntu/exp-scripts/log.log ~/results/log_${node}.log
+
+		node=$((node + 1))
 		shift
 	done
 }
